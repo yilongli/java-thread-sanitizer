@@ -25,6 +25,47 @@ import org.jtsan.RaceDetectorApi;
  */
 public class EasyTests {
 
+  public static void main(String[] args) {
+    EasyTests tests = new EasyTests();
+    // positive tests
+    tests.noLockWWInt();
+    tests.noLockWWShort();
+    tests.noLockWWChar();
+    tests.noLockWWLong();
+    tests.noLockWWFloat();
+    tests.noLockWWDouble();
+    tests.noLockWWObject();
+    tests.lockedVsNoLockedWW();
+    tests.lockedVsNoLockedWW2();
+    tests.differentLocksWW();
+    tests.recursiveObjectWW();
+    tests.systemArrayCopy();
+    tests.systemArrayCopy2();
+    tests.systemArrayCopy3();
+    tests.systemArrayCopyException();
+    // negative tests
+    tests.noOperation();
+    tests.noOperation2();
+    tests.lockedInc();
+    tests.lockedInc2();
+    tests.distinctFields();
+    tests.localVolatileBoolean();
+    tests.staticVolatileBoolean();
+    tests.superClassVolatile();
+    tests.syncWithStaticVolatile();
+    tests.differentFields();
+    tests.differentFields2();
+    tests.lockedWW();
+    tests.joinWithoutStart();
+    tests.systemArrayCopyDiff();
+    tests.systemArrayCopySync();
+    tests.systemArrayCopyDiff2();
+    tests.systemArrayCopyDiff3();
+    tests.systemArrayCopyIndexOutOfBoundsException();
+    tests.systemArrayCopyNullPointerException();
+    tests.systemArrayCopyArrayStoreException();
+  }
+
   //------------------ Positive tests ---------------------
 
   @RaceTest(expectRace = true,
@@ -503,7 +544,7 @@ public class EasyTests {
     new ThreadRunner(4) {
       int a, b;
       Integer c, d;
-       
+
       public void setUp() {
         a = b = c = d = 117;
       }

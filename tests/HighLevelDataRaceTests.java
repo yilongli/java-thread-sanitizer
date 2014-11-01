@@ -21,6 +21,16 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class HighLevelDataRaceTests {
 
+  public static void main(String[] args) {
+    HighLevelDataRaceTests tests = new HighLevelDataRaceTests();
+    tests.localCopy();
+    tests.badCyclicQueue();
+    tests.arraySize();
+    tests.pointInconsistentState();
+    tests.mozilla08CacheBug();
+    tests.mozilla09StringLengthBug();
+  }
+
   @RaceTest(description = "The simplest atomicity violation. Store sharedVar at local var." +
       " All accesses to sharedVar are synchronized.")
   public void localCopy() {

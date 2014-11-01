@@ -29,6 +29,26 @@ import java.util.TreeMap;
  */
 public class MediumTests {
 
+  public static void main(String[] args) {
+    MediumTests tests = new MediumTests();
+    // positive tests
+    tests.hashSetAccessNoLocks();
+    tests.treeMapAccessNoLocks();
+    tests.arrayAccessNoLocks();
+    tests.lockInBetween();
+    // negative tests
+    tests.notifyWait();
+    tests.notifyWait2();
+    tests.deepField();
+    tests.passingViaLockedMap();
+    tests.syncWithLocalVolatile();
+    tests.messageViaLockedObject();
+    tests.passingViaLockedBoolean();
+    tests.passingViaLockedBoolean2();
+    tests.arrayDifferentOffsets();
+    tests.exceptionWithSync();
+  }
+
   //------------------ Positive tests ---------------------
 
   @ExcludedTest(reason = "HashSet loads before instrumentation starts")

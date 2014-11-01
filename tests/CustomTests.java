@@ -18,6 +18,19 @@
  */
 public class CustomTests {
 
+  public static void main(String[] args) {
+    CustomTests tests = new CustomTests();
+    // positive tests
+    tests.staticCollisions();
+    // negative tests
+    tests.staticFinal();
+    tests.exceptionExit();
+    tests.staticSync();
+    tests.staticSync2();
+    tests.staticSync3();
+    tests.recTest();
+  }
+
   static class staticFinalProvider {
     private static final int staticFinalX = hugeMethod();
 

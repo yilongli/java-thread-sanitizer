@@ -40,6 +40,30 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  */
 public class JUConcurrentTests {
 
+  public static void main(String[] args) {
+    JUConcurrentTests tests = new JUConcurrentTests();
+    // positive tests
+    tests.writingUnderReaderLock();
+    tests.differentLocksWW2();
+    tests.cyclicBarrierWrong();
+    tests.lockNeMonitor();
+    // negative tests
+    tests.arrayBlockingQueue();
+    tests.reentrantLockInterruptibly();
+    tests.countDownLatch();
+    tests.cyclicBarrier();
+    tests.semaphore();
+    tests.writeLocksOnly();
+    tests.readAndWriteLocks();
+    tests.tryLock();
+    tests.reentrantLockSimple();
+    tests.tryLock2();
+    tests.atomicInteger();
+    tests.fifoMutexUser();
+    tests.futureTask();
+    tests.synchronousQueue();
+  }
+
   //------------------ Positive tests ---------------------
 
   @RaceTest(expectRace = true,
@@ -124,6 +148,26 @@ public class JUConcurrentTests {
 
       public void thread4() {
         thread1();
+      }
+    };
+  }
+
+  @RaceTest(expectRace = true,
+      description = "Test separate monitor and lock instances of Lock")
+  public void lockNeMonitor() {
+    final ReentrantLock lock = new ReentrantLock();
+    new ThreadRunner(2) {
+      public void thread1() {
+        lock.lock();
+        sharedVar++;
+        lock.unlock();
+      }
+
+      public void thread2() {
+        longSleep();
+        synchronized(lock) {
+          sharedVar++;
+        }
       }
     };
   }
@@ -557,26 +601,6 @@ public class JUConcurrentTests {
       throw new RuntimeException(e);
     }
     executor.shutdown();
-  }
-
-  @RaceTest(expectRace = true,
-      description = "Test separate monitor and lock instances of Lock")
-  public void lockNeMonitor() {
-    final ReentrantLock lock = new ReentrantLock();
-    new ThreadRunner(2) {
-      public void thread1() {
-        lock.lock();
-        sharedVar++;
-        lock.unlock();
-      }
-
-      public void thread2() {
-        longSleep();
-        synchronized(lock) {
-          sharedVar++;
-        }
-      }
-    };
   }
 
   @ExcludedTest(reason = "SynchronousQueue is not supported yet")
